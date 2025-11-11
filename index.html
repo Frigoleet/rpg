@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>D&D Character Creator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -153,51 +153,69 @@
                     </div>
                     <div class="ability-scores">
                         <div class="ability-score">
-                            <label for="strength">Strength</label>
+                            <label for="strength">
+                                <span class="ability-icon">💪</span>
+                                <span class="ability-name">Strength</span>
+                            </label>
                             <div class="score-controls">
-                                <button class="btn-minus" data-ability="strength">-</button>
+                                <button class="btn-minus" data-ability="strength" type="button">−</button>
                                 <input type="number" id="strength" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="strength">+</button>
+                                <button class="btn-plus" data-ability="strength" type="button">+</button>
                             </div>
                         </div>
                         <div class="ability-score">
-                            <label for="dexterity">Dexterity</label>
+                            <label for="dexterity">
+                                <span class="ability-icon">🏃</span>
+                                <span class="ability-name">Dexterity</span>
+                            </label>
                             <div class="score-controls">
-                                <button class="btn-minus" data-ability="dexterity">-</button>
+                                <button class="btn-minus" data-ability="dexterity" type="button">−</button>
                                 <input type="number" id="dexterity" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="dexterity">+</button>
+                                <button class="btn-plus" data-ability="dexterity" type="button">+</button>
                             </div>
                         </div>
                         <div class="ability-score">
-                            <label for="constitution">Constitution</label>
+                            <label for="constitution">
+                                <span class="ability-icon">❤️</span>
+                                <span class="ability-name">Constitution</span>
+                            </label>
                             <div class="score-controls">
-                                <button class="btn-minus" data-ability="constitution">-</button>
+                                <button class="btn-minus" data-ability="constitution" type="button">−</button>
                                 <input type="number" id="constitution" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="constitution">+</button>
+                                <button class="btn-plus" data-ability="constitution" type="button">+</button>
                             </div>
                         </div>
                         <div class="ability-score">
-                            <label for="intelligence">Intelligence</label>
+                            <label for="intelligence">
+                                <span class="ability-icon">🧠</span>
+                                <span class="ability-name">Intelligence</span>
+                            </label>
                             <div class="score-controls">
-                                <button class="btn-minus" data-ability="intelligence">-</button>
+                                <button class="btn-minus" data-ability="intelligence" type="button">−</button>
                                 <input type="number" id="intelligence" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="intelligence">+</button>
+                                <button class="btn-plus" data-ability="intelligence" type="button">+</button>
                             </div>
                         </div>
                         <div class="ability-score">
-                            <label for="wisdom">Wisdom</label>
+                            <label for="wisdom">
+                                <span class="ability-icon">👁️</span>
+                                <span class="ability-name">Wisdom</span>
+                            </label>
                             <div class="score-controls">
-                                <button class="btn-minus" data-ability="wisdom">-</button>
+                                <button class="btn-minus" data-ability="wisdom" type="button">−</button>
                                 <input type="number" id="wisdom" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="wisdom">+</button>
+                                <button class="btn-plus" data-ability="wisdom" type="button">+</button>
                             </div>
                         </div>
                         <div class="ability-score">
-                            <label for="charisma">Charisma</label>
+                            <label for="charisma">
+                                <span class="ability-icon">✨</span>
+                                <span class="ability-name">Charisma</span>
+                            </label>
                             <div class="score-controls">
-                                <button class="btn-minus" data-ability="charisma">-</button>
+                                <button class="btn-minus" data-ability="charisma" type="button">−</button>
                                 <input type="number" id="charisma" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="charisma">+</button>
+                                <button class="btn-plus" data-ability="charisma" type="button">+</button>
                             </div>
                         </div>
                     </div>
@@ -208,47 +226,81 @@
             <div class="step" data-step="5">
                 <section class="card">
                     <h2>Skills</h2>
-                    <p class="info-text">Select proficiency in skills</p>
-                    <div class="skills-grid" id="skillsContainer">
+                    <p class="info-text">Select proficiency in skills (you can select multiple)</p>
+                    <div class="selection-grid" id="skillsContainer">
                         <!-- Skills will be populated by JavaScript -->
                     </div>
                 </section>
             </div>
 
-            <!-- Step 6: Appearance -->
+            <!-- Step 6: Backstory -->
             <div class="step" data-step="6">
                 <section class="card">
-                    <h2>Appearance</h2>
-                    <div class="appearance-section">
-                        <div class="appearance-field">
-                            <label for="height">Height</label>
-                            <input type="text" id="height" placeholder="e.g., 5'10&quot;">
-                        </div>
-                        <div class="appearance-field">
-                            <label for="weight">Weight</label>
-                            <input type="text" id="weight" placeholder="e.g., 180 lbs">
-                        </div>
-                        <div class="appearance-field">
-                            <label for="hairColor">Hair Color</label>
-                            <input type="text" id="hairColor" placeholder="e.g., Brown">
-                        </div>
-                        <div class="appearance-field">
-                            <label for="eyeColor">Eye Color</label>
-                            <input type="text" id="eyeColor" placeholder="e.g., Blue">
-                        </div>
-                        <div class="appearance-field full-width">
-                            <label for="skinColor">Skin Color</label>
-                            <input type="text" id="skinColor" placeholder="e.g., Fair">
-                        </div>
-                        <div class="appearance-field full-width">
-                            <label for="distinguishingFeatures">Distinguishing Features</label>
-                            <textarea id="distinguishingFeatures" placeholder="Scars, tattoos, unique features..." rows="3"></textarea>
-                        </div>
-                        <div class="appearance-field full-width">
-                            <label for="background">Background/Backstory</label>
-                            <textarea id="background" placeholder="Character background and history..." rows="4"></textarea>
-                        </div>
+                    <h2>Background</h2>
+                    <p class="info-text">Choose your character's background. Each background provides unique skills and traits.</p>
+                    <div class="backstory-grid" id="backstoryGrid">
+                        <button class="backstory-btn" data-value="Acolyte" data-icon="⛪">
+                            <span class="btn-icon">⛪</span>
+                            <span class="btn-label">Acolyte</span>
+                            <span class="btn-description">You spent your life in service to a temple, learning sacred rites and providing spiritual guidance. Your devotion grants you insight into religious matters and the ability to find sanctuary in temples.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Criminal" data-icon="🗡️">
+                            <span class="btn-icon">🗡️</span>
+                            <span class="btn-label">Criminal</span>
+                            <span class="btn-description">You lived a life of crime, learning to survive on the streets through theft, deception, and violence. Your past has given you contacts in the underworld and skills in stealth and deception.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Folk Hero" data-icon="🛡️">
+                            <span class="btn-icon">🛡️</span>
+                            <span class="btn-label">Folk Hero</span>
+                            <span class="btn-description">You came from humble origins but performed a great deed that won the hearts of common folk. Your reputation as a champion of the people gives you respect and aid from commoners.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Noble" data-icon="👑">
+                            <span class="btn-icon">👑</span>
+                            <span class="btn-label">Noble</span>
+                            <span class="btn-description">You were born into wealth and privilege, raised in a world of politics and high society. Your noble status grants you respect and access to the upper echelons of society.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Sage" data-icon="📚">
+                            <span class="btn-icon">📚</span>
+                            <span class="btn-label">Sage</span>
+                            <span class="btn-description">You devoted your life to learning and research, amassing knowledge in libraries and universities. Your scholarly background provides you with extensive knowledge and research skills.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Soldier" data-icon="⚔️">
+                            <span class="btn-icon">⚔️</span>
+                            <span class="btn-label">Soldier</span>
+                            <span class="btn-description">You served in a military force, learning discipline, tactics, and the art of war. Your military training gives you respect among soldiers and knowledge of military hierarchy.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Hermit" data-icon="🏔️">
+                            <span class="btn-icon">🏔️</span>
+                            <span class="btn-label">Hermit</span>
+                            <span class="btn-description">You lived in seclusion, seeking spiritual enlightenment or hiding from the world. Your isolation has granted you deep wisdom and the ability to find peace in solitude.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Entertainer" data-icon="🎭">
+                            <span class="btn-icon">🎭</span>
+                            <span class="btn-label">Entertainer</span>
+                            <span class="btn-description">You traveled from place to place, performing for crowds and bringing joy through music, stories, or dance. Your performances have made you welcome in most communities.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Guild Artisan" data-icon="🔨">
+                            <span class="btn-icon">🔨</span>
+                            <span class="btn-label">Guild Artisan</span>
+                            <span class="btn-description">You were a member of a guild, mastering a craft and learning the value of community and trade. Your guild connections provide you with resources and a place to stay in cities.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Outlander" data-icon="🌲">
+                            <span class="btn-icon">🌲</span>
+                            <span class="btn-label">Outlander</span>
+                            <span class="btn-description">You grew up in the wilds, far from civilization, learning to survive in nature. Your wilderness skills make you an expert tracker and allow you to find food and shelter in the wild.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Charlatan" data-icon="🎲">
+                            <span class="btn-icon">🎲</span>
+                            <span class="btn-label">Charlatan</span>
+                            <span class="btn-description">You made your way through life by tricking others, using false identities and schemes. Your deceptive skills and false identities help you blend into any social situation.</span>
+                        </button>
+                        <button class="backstory-btn" data-value="Sailor" data-icon="⛵">
+                            <span class="btn-icon">⛵</span>
+                            <span class="btn-label">Sailor</span>
+                            <span class="btn-description">You spent years at sea, learning navigation, ship handling, and the ways of sailors. Your maritime experience grants you free passage on ships and knowledge of coastal areas.</span>
+                        </button>
                     </div>
+                    <input type="hidden" id="backstorySelect" value="">
                 </section>
             </div>
 

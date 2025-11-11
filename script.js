@@ -1,23 +1,23 @@
-// D&D Skills list
+// D&D Skills list with icons
 const skills = [
-    { name: 'Acrobatics', ability: 'Dexterity' },
-    { name: 'Animal Handling', ability: 'Wisdom' },
-    { name: 'Arcana', ability: 'Intelligence' },
-    { name: 'Athletics', ability: 'Strength' },
-    { name: 'Deception', ability: 'Charisma' },
-    { name: 'History', ability: 'Intelligence' },
-    { name: 'Insight', ability: 'Wisdom' },
-    { name: 'Intimidation', ability: 'Charisma' },
-    { name: 'Investigation', ability: 'Intelligence' },
-    { name: 'Medicine', ability: 'Wisdom' },
-    { name: 'Nature', ability: 'Intelligence' },
-    { name: 'Perception', ability: 'Wisdom' },
-    { name: 'Performance', ability: 'Charisma' },
-    { name: 'Persuasion', ability: 'Charisma' },
-    { name: 'Religion', ability: 'Intelligence' },
-    { name: 'Sleight of Hand', ability: 'Dexterity' },
-    { name: 'Stealth', ability: 'Dexterity' },
-    { name: 'Survival', ability: 'Wisdom' }
+    { name: 'Acrobatics', ability: 'Dexterity', icon: '🤸' },
+    { name: 'Animal Handling', ability: 'Wisdom', icon: '🐕' },
+    { name: 'Arcana', ability: 'Intelligence', icon: '🔮' },
+    { name: 'Athletics', ability: 'Strength', icon: '💪' },
+    { name: 'Deception', ability: 'Charisma', icon: '🎭' },
+    { name: 'History', ability: 'Intelligence', icon: '📜' },
+    { name: 'Insight', ability: 'Wisdom', icon: '👁️' },
+    { name: 'Intimidation', ability: 'Charisma', icon: '😠' },
+    { name: 'Investigation', ability: 'Intelligence', icon: '🔍' },
+    { name: 'Medicine', ability: 'Wisdom', icon: '⚕️' },
+    { name: 'Nature', ability: 'Intelligence', icon: '🌿' },
+    { name: 'Perception', ability: 'Wisdom', icon: '👂' },
+    { name: 'Performance', ability: 'Charisma', icon: '🎪' },
+    { name: 'Persuasion', ability: 'Charisma', icon: '💬' },
+    { name: 'Religion', ability: 'Intelligence', icon: '⛪' },
+    { name: 'Sleight of Hand', ability: 'Dexterity', icon: '🤏' },
+    { name: 'Stealth', ability: 'Dexterity', icon: '🥷' },
+    { name: 'Survival', ability: 'Wisdom', icon: '🏕️' }
 ];
 
 // Ability scores state
@@ -46,26 +46,38 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSummary();
 });
 
-// Populate skills checkboxes
+// Populate skills buttons
 function initializeSkills() {
     const container = document.getElementById('skillsContainer');
     skills.forEach(skill => {
-        const skillItem = document.createElement('div');
-        skillItem.className = 'skill-item';
+        const skillBtn = document.createElement('button');
+        skillBtn.className = 'selection-btn skill-btn';
+        skillBtn.dataset.value = skill.name;
+        skillBtn.dataset.ability = skill.ability;
         
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = `skill-${skill.name}`;
-        checkbox.value = skill.name;
-        checkbox.addEventListener('change', updateSummary);
+        const icon = document.createElement('span');
+        icon.className = 'btn-icon';
+        icon.textContent = skill.icon;
         
-        const label = document.createElement('label');
-        label.htmlFor = `skill-${skill.name}`;
-        label.textContent = `${skill.name} (${skill.ability.substring(0, 3).toUpperCase()})`;
+        const label = document.createElement('span');
+        label.className = 'btn-label';
+        label.textContent = `${skill.name}`;
         
-        skillItem.appendChild(checkbox);
-        skillItem.appendChild(label);
-        container.appendChild(skillItem);
+        const abilityTag = document.createElement('span');
+        abilityTag.className = 'skill-ability';
+        abilityTag.textContent = skill.ability.substring(0, 3).toUpperCase();
+        
+        skillBtn.appendChild(icon);
+        skillBtn.appendChild(label);
+        skillBtn.appendChild(abilityTag);
+        
+        // Add click handler for toggle selection
+        skillBtn.addEventListener('click', () => {
+            skillBtn.classList.toggle('selected');
+            updateSummary();
+        });
+        
+        container.appendChild(skillBtn);
     });
 }
 
@@ -78,8 +90,25 @@ function initializeAbilityScores() {
         const minusBtn = document.querySelector(`.btn-minus[data-ability="${ability}"]`);
         const input = document.getElementById(ability);
         
-        plusBtn.addEventListener('click', () => adjustAbilityScore(ability, 1));
-        minusBtn.addEventListener('click', () => adjustAbilityScore(ability, -1));
+        plusBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            adjustAbilityScore(ability, 1);
+        }, { passive: false });
+        
+        plusBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            adjustAbilityScore(ability, 1);
+        }, { passive: false });
+        
+        minusBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            adjustAbilityScore(ability, -1);
+        }, { passive: false });
+        
+        minusBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            adjustAbilityScore(ability, -1);
+        }, { passive: false });
         
         updateAbilityScoreDisplay(ability);
     });
@@ -216,13 +245,18 @@ function setupSelectionButtons() {
         characterNameInput.addEventListener('input', updateSummary);
     }
     
-    // Appearance inputs
-    const appearanceInputs = ['height', 'weight', 'hairColor', 'eyeColor', 'skinColor', 'distinguishingFeatures', 'background'];
-    appearanceInputs.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('input', updateSummary);
-        }
+    // Backstory buttons
+    const backstoryButtons = document.querySelectorAll('#backstoryGrid .backstory-btn');
+    backstoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove selected class from all backstory buttons
+            backstoryButtons.forEach(b => b.classList.remove('selected'));
+            // Add selected class to clicked button
+            btn.classList.add('selected');
+            // Update hidden input
+            document.getElementById('backstorySelect').value = btn.dataset.value;
+            updateSummary();
+        });
     });
 }
 
@@ -266,10 +300,11 @@ function updateStepDisplay() {
     }
 }
 
-// Restore selected states for race and class buttons
+// Restore selected states for race, class, and backstory buttons
 function restoreSelectedStates() {
     const selectedRace = document.getElementById('raceSelect').value;
     const selectedClass = document.getElementById('classSelect').value;
+    const selectedBackstory = document.getElementById('backstorySelect').value;
     
     // Restore race selection
     if (selectedRace) {
@@ -286,6 +321,16 @@ function restoreSelectedStates() {
         document.querySelectorAll('#classGrid .selection-btn').forEach(btn => {
             btn.classList.remove('selected');
             if (btn.dataset.value === selectedClass) {
+                btn.classList.add('selected');
+            }
+        });
+    }
+    
+    // Restore backstory selection
+    if (selectedBackstory) {
+        document.querySelectorAll('#backstoryGrid .backstory-btn').forEach(btn => {
+            btn.classList.remove('selected');
+            if (btn.dataset.value === selectedBackstory) {
                 btn.classList.add('selected');
             }
         });
@@ -314,21 +359,12 @@ function updateSummary() {
     
     // Get selected skills
     const selectedSkills = [];
-    skills.forEach(skill => {
-        const checkbox = document.getElementById(`skill-${skill.name}`);
-        if (checkbox && checkbox.checked) {
-            selectedSkills.push(skill.name);
-        }
+    document.querySelectorAll('#skillsContainer .skill-btn.selected').forEach(btn => {
+        selectedSkills.push(btn.dataset.value);
     });
     
-    // Get appearance
-    const height = document.getElementById('height').value || 'Not set';
-    const weight = document.getElementById('weight').value || 'Not set';
-    const hairColor = document.getElementById('hairColor').value || 'Not set';
-    const eyeColor = document.getElementById('eyeColor').value || 'Not set';
-    const skinColor = document.getElementById('skinColor').value || 'Not set';
-    const distinguishingFeatures = document.getElementById('distinguishingFeatures').value || 'None';
-    const background = document.getElementById('background').value || 'None';
+    // Get backstory
+    const backstory = document.getElementById('backstorySelect').value || 'Not selected';
     
     // Calculate modifiers
     function getModifier(score) {
@@ -378,27 +414,12 @@ function updateSummary() {
     }
     html += '</div>';
     
-    // Appearance
+    // Backstory
     html += '<div class="summary-section">';
-    html += '<div class="summary-section-title">🎨 Appearance</div>';
+    html += '<div class="summary-section-title">📖 Background</div>';
     html += '<div class="summary-section-content">';
-    html += `<div class="summary-item"><span class="summary-item-label">Height:</span><span class="summary-item-value ${height === 'Not set' ? 'empty' : ''}">${height}</span></div>`;
-    html += `<div class="summary-item"><span class="summary-item-label">Weight:</span><span class="summary-item-value ${weight === 'Not set' ? 'empty' : ''}">${weight}</span></div>`;
-    html += `<div class="summary-item"><span class="summary-item-label">Hair:</span><span class="summary-item-value ${hairColor === 'Not set' ? 'empty' : ''}">${hairColor}</span></div>`;
-    html += `<div class="summary-item"><span class="summary-item-label">Eyes:</span><span class="summary-item-value ${eyeColor === 'Not set' ? 'empty' : ''}">${eyeColor}</span></div>`;
-    html += `<div class="summary-item"><span class="summary-item-label">Skin:</span><span class="summary-item-value ${skinColor === 'Not set' ? 'empty' : ''}">${skinColor}</span></div>`;
-    if (distinguishingFeatures !== 'None') {
-        html += `<div class="summary-item"><span class="summary-item-label">Features:</span><span class="summary-item-value">${distinguishingFeatures.substring(0, 50)}${distinguishingFeatures.length > 50 ? '...' : ''}</span></div>`;
-    }
+    html += `<div class="summary-item"><span class="summary-item-label">Background:</span><span class="summary-item-value ${backstory === 'Not selected' ? 'empty' : ''}">${backstory}</span></div>`;
     html += '</div></div>';
-    
-    // Background
-    if (background !== 'None') {
-        html += '<div class="summary-section">';
-        html += '<div class="summary-section-title">📖 Background</div>';
-        html += `<div class="summary-section-content"><span class="summary-item-value">${background.substring(0, 100)}${background.length > 100 ? '...' : ''}</span></div>`;
-        html += '</div>';
-    }
     
     content.innerHTML = html;
 }
@@ -411,21 +432,12 @@ function exportCharacter() {
     
     // Get selected skills
     const selectedSkills = [];
-    skills.forEach(skill => {
-        const checkbox = document.getElementById(`skill-${skill.name}`);
-        if (checkbox.checked) {
-            selectedSkills.push(skill.name);
-        }
+    document.querySelectorAll('#skillsContainer .skill-btn.selected').forEach(btn => {
+        selectedSkills.push(btn.dataset.value);
     });
     
-    // Get appearance details
-    const height = document.getElementById('height').value || 'Not specified';
-    const weight = document.getElementById('weight').value || 'Not specified';
-    const hairColor = document.getElementById('hairColor').value || 'Not specified';
-    const eyeColor = document.getElementById('eyeColor').value || 'Not specified';
-    const skinColor = document.getElementById('skinColor').value || 'Not specified';
-    const distinguishingFeatures = document.getElementById('distinguishingFeatures').value || 'None';
-    const background = document.getElementById('background').value || 'None';
+    // Get backstory
+    const backstory = document.getElementById('backstorySelect').value || 'Not selected';
     
     // Calculate ability modifiers
     function getModifier(score) {
@@ -469,19 +481,9 @@ function exportCharacter() {
     characterSheet += '\n';
     
     characterSheet += '-' .repeat(50) + '\n';
-    characterSheet += 'APPEARANCE\n';
+    characterSheet += 'BACKGROUND\n';
     characterSheet += '-' .repeat(50) + '\n';
-    characterSheet += `Height: ${height}\n`;
-    characterSheet += `Weight: ${weight}\n`;
-    characterSheet += `Hair Color: ${hairColor}\n`;
-    characterSheet += `Eye Color: ${eyeColor}\n`;
-    characterSheet += `Skin Color: ${skinColor}\n`;
-    characterSheet += `Distinguishing Features: ${distinguishingFeatures}\n\n`;
-    
-    characterSheet += '-' .repeat(50) + '\n';
-    characterSheet += 'BACKGROUND/BACKSTORY\n';
-    characterSheet += '-' .repeat(50) + '\n';
-    characterSheet += `${background}\n\n`;
+    characterSheet += `Background: ${backstory}\n\n`;
     
     characterSheet += '='.repeat(50) + '\n';
     characterSheet += `Generated on: ${new Date().toLocaleString()}\n`;
