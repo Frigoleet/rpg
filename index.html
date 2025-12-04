@@ -3,325 +3,462 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>D&D Character Creator</title>
+    <title>Blood and Deceit</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="summary-toggle" id="summaryToggle">
-                <div class="summary-header">
-                    <span class="summary-icon">📋</span>
-                    <span class="summary-title">Character Summary</span>
-                    <span class="summary-arrow">▼</span>
+        <!-- Start Page -->
+    <div class="page" id="startPage">
+        <div class="container start-container">
+            <header class="start-header">
+                <div class="hero-card">
+                    <h1 class="hero-title">Blood and Deceit</h1>
                 </div>
-            </div>
-            <div class="summary-panel" id="summaryPanel">
-                <div class="summary-content" id="summaryContent">
-                    <!-- Summary will be populated by JavaScript -->
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="step-indicator">
-                <span id="currentStep">1</span> / <span id="totalSteps">7</span>
-            </div>
-        </header>
-
-        <main>
-            <!-- Step 1: Character Name -->
-            <div class="step active" data-step="1">
+            </header>
+            <main class="start-main">
+                <button id="createNewBtn" class="start-btn create-btn">
+                    <span class="btn-icon-large">&#10024;</span>
+                    <span class="btn-text">Create New Character</span>
+                </button>
+                <button id="generateNpcBtn" class="start-btn npc-btn">
+                    <span class="btn-icon-large">&#129302;</span>
+                    <span class="btn-text">Generate NPC</span>
+                </button>
+                <button id="gmConsoleBtn" class="start-btn info-btn">
+                    <span class="btn-icon-large">&#129497;</span>
+                    <span class="btn-text">GM Console</span>
+                </button>
+                <button id="battleRulesBtn" class="start-btn info-btn">
+                    <span class="btn-icon-large">&#9876;</span>
+                    <span class="btn-text">Battle Rules</span>
+                </button>
+                <button id="battleArenaBtn" class="start-btn info-btn">
+                    <span class="btn-icon-large">&#127919;</span>
+                    <span class="btn-text">Battle Arena</span>
+                </button>
+                <input type="file" id="playerBattleInput" accept=".json" style="display: none;">
+    <input type="file" id="npcBattleInput" accept=".json" style="display: none;">
+    <input type="file" id="sessionImportInput" accept=".json" style="display: none;">
+            </main>
+        </div>
+    </div>
+    <!-- Battle Rules Page -->
+    <div class="page hidden" id="rulesPage">
+        <div class="container start-container">
+            <header class="start-header">
+                <h1>Quick Battle Framework</h1>
+                
+                <button id="rulesBackBtn" class="back-btn" style="margin-top:12px;">Back to Main Menu</button>
+            </header>
+            <main class="rules-main">
                 <section class="card">
-                    <h2>Character Name</h2>
-                    <input type="text" id="characterName" placeholder="Enter character name" maxlength="50">
+                    <h2>1) Core Loop</h2>
+                    <ul class="rules-list">
+                        <li>Both sides start with their hit points (HP) from the sheet.</li>
+                        <li>Roll initiative once: each rolls 1d20 + Dexterity modifier; higher goes first.</li>
+                        <li>Turns alternate; on your turn choose one action and one movement.</li>
+                        <li>Combat ends when a side hits 0 HP or yields; narrate outcomes.</li>
+                    </ul>
                 </section>
-            </div>
 
-            <!-- Step 2: Race Selection -->
-            <div class="step" data-step="2">
                 <section class="card">
-                    <h2>Race</h2>
-                    <div class="selection-grid" id="raceGrid">
-                        <button class="selection-btn" data-value="Human" data-icon="👤">
-                            <span class="btn-icon">👤</span>
-                            <span class="btn-label">Human</span>
-                        </button>
-                        <button class="selection-btn" data-value="Elf" data-icon="🧝">
-                            <span class="btn-icon">🧝</span>
-                            <span class="btn-label">Elf</span>
-                        </button>
-                        <button class="selection-btn" data-value="Dwarf" data-icon="⛏️">
-                            <span class="btn-icon">⛏️</span>
-                            <span class="btn-label">Dwarf</span>
-                        </button>
-                        <button class="selection-btn" data-value="Halfling" data-icon="🍀">
-                            <span class="btn-icon">🍀</span>
-                            <span class="btn-label">Halfling</span>
-                        </button>
-                        <button class="selection-btn" data-value="Dragonborn" data-icon="🐉">
-                            <span class="btn-icon">🐉</span>
-                            <span class="btn-label">Dragonborn</span>
-                        </button>
-                        <button class="selection-btn" data-value="Gnome" data-icon="🧙">
-                            <span class="btn-icon">🧙</span>
-                            <span class="btn-label">Gnome</span>
-                        </button>
-                        <button class="selection-btn" data-value="Half-Elf" data-icon="✨">
-                            <span class="btn-icon">✨</span>
-                            <span class="btn-label">Half-Elf</span>
-                        </button>
-                        <button class="selection-btn" data-value="Half-Orc" data-icon="⚔️">
-                            <span class="btn-icon">⚔️</span>
-                            <span class="btn-label">Half-Orc</span>
-                        </button>
-                        <button class="selection-btn" data-value="Tiefling" data-icon="😈">
-                            <span class="btn-icon">😈</span>
-                            <span class="btn-label">Tiefling</span>
-                        </button>
-                    </div>
-                    <input type="hidden" id="raceSelect" value="">
+                    <h2>2) Actions</h2>
+                    <ul class="rules-list">
+                        <li><strong>Attack:</strong> Roll 1d20 + attack bonus vs target Defense. On hit, deal weapon damage + bonus.</li>
+                        <li><strong>Defend:</strong> Raise Defense by +2 until your next turn; you cannot attack this turn.</li>
+                        <li><strong>Quick Move:</strong> Reposition or take cover; gain advantage on your next Defense roll.</li>
+                        <li><strong>Creative Action:</strong> Describe a stunt (trip, disarm, shove, distract). GM sets a simple roll (1d20 + relevant ability) and an effect if successful.</li>
+                        <li><strong>Use Item/Ability:</strong> Drink potion, trigger class feature, or use a carried item; costs your action.</li>
+                    </ul>
                 </section>
-            </div>
 
-            <!-- Step 3: Class Selection -->
-            <div class="step" data-step="3">
                 <section class="card">
-                    <h2>Class</h2>
-                    <div class="selection-grid" id="classGrid">
-                        <button class="selection-btn" data-value="Barbarian" data-icon="🪓">
-                            <span class="btn-icon">🪓</span>
-                            <span class="btn-label">Barbarian</span>
-                        </button>
-                        <button class="selection-btn" data-value="Bard" data-icon="🎵">
-                            <span class="btn-icon">🎵</span>
-                            <span class="btn-label">Bard</span>
-                        </button>
-                        <button class="selection-btn" data-value="Cleric" data-icon="⚕️">
-                            <span class="btn-icon">⚕️</span>
-                            <span class="btn-label">Cleric</span>
-                        </button>
-                        <button class="selection-btn" data-value="Druid" data-icon="🌿">
-                            <span class="btn-icon">🌿</span>
-                            <span class="btn-label">Druid</span>
-                        </button>
-                        <button class="selection-btn" data-value="Fighter" data-icon="⚔️">
-                            <span class="btn-icon">⚔️</span>
-                            <span class="btn-label">Fighter</span>
-                        </button>
-                        <button class="selection-btn" data-value="Monk" data-icon="🥋">
-                            <span class="btn-icon">🥋</span>
-                            <span class="btn-label">Monk</span>
-                        </button>
-                        <button class="selection-btn" data-value="Paladin" data-icon="🛡️">
-                            <span class="btn-icon">🛡️</span>
-                            <span class="btn-label">Paladin</span>
-                        </button>
-                        <button class="selection-btn" data-value="Ranger" data-icon="🏹">
-                            <span class="btn-icon">🏹</span>
-                            <span class="btn-label">Ranger</span>
-                        </button>
-                        <button class="selection-btn" data-value="Rogue" data-icon="🗡️">
-                            <span class="btn-icon">🗡️</span>
-                            <span class="btn-label">Rogue</span>
-                        </button>
-                        <button class="selection-btn" data-value="Sorcerer" data-icon="💫">
-                            <span class="btn-icon">💫</span>
-                            <span class="btn-label">Sorcerer</span>
-                        </button>
-                        <button class="selection-btn" data-value="Warlock" data-icon="🔮">
-                            <span class="btn-icon">🔮</span>
-                            <span class="btn-label">Warlock</span>
-                        </button>
-                        <button class="selection-btn" data-value="Wizard" data-icon="📜">
-                            <span class="btn-icon">📜</span>
-                            <span class="btn-label">Wizard</span>
-                        </button>
-                    </div>
-                    <input type="hidden" id="classSelect" value="">
+                    <h2>3) Attack & Defense</h2>
+                    <ul class="rules-list">
+                        <li><strong>Attack Bonus:</strong> Proficiency (default +2) + main ability (STR for melee, DEX for ranged) + any magic/gear.</li>
+                        <li><strong>Defense Score:</strong> 10 + DEX modifier + armor/shield bonus + situational cover.</li>
+                        <li><strong>Hit Check:</strong> If attack roll ≥ Defense, it hits. Natural 20 always hits and doubles the weapon dice.</li>
+                        <li><strong>Damage:</strong> Weapon dice + STR/DEX modifier + magic/gear. Creative actions can swap damage for effects.</li>
+                        <li><strong>Glancing Blow (optional):</strong> Miss by 1–2 deals half damage if both agree, to keep fights brisk.</li>
+                    </ul>
                 </section>
-            </div>
 
-            <!-- Step 4: Ability Scores -->
-            <div class="step" data-step="4">
                 <section class="card">
-                    <h2>Ability Scores</h2>
-                    <p class="info-text">Distribute 27 points (minimum 8, maximum 15 per stat)</p>
-                    <div class="points-remaining">
-                        <span>Points Remaining: </span>
-                        <span id="pointsRemaining">27</span>
-                    </div>
-                    <div class="ability-scores">
-                        <div class="ability-score">
-                            <label for="strength">
-                                <span class="ability-icon">💪</span>
-                                <span class="ability-name">Strength</span>
-                            </label>
-                            <div class="score-controls">
-                                <button class="btn-minus" data-ability="strength" type="button">−</button>
-                                <input type="number" id="strength" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="strength" type="button">+</button>
-                            </div>
-                        </div>
-                        <div class="ability-score">
-                            <label for="dexterity">
-                                <span class="ability-icon">🏃</span>
-                                <span class="ability-name">Dexterity</span>
-                            </label>
-                            <div class="score-controls">
-                                <button class="btn-minus" data-ability="dexterity" type="button">−</button>
-                                <input type="number" id="dexterity" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="dexterity" type="button">+</button>
-                            </div>
-                        </div>
-                        <div class="ability-score">
-                            <label for="constitution">
-                                <span class="ability-icon">❤️</span>
-                                <span class="ability-name">Constitution</span>
-                            </label>
-                            <div class="score-controls">
-                                <button class="btn-minus" data-ability="constitution" type="button">−</button>
-                                <input type="number" id="constitution" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="constitution" type="button">+</button>
-                            </div>
-                        </div>
-                        <div class="ability-score">
-                            <label for="intelligence">
-                                <span class="ability-icon">🧠</span>
-                                <span class="ability-name">Intelligence</span>
-                            </label>
-                            <div class="score-controls">
-                                <button class="btn-minus" data-ability="intelligence" type="button">−</button>
-                                <input type="number" id="intelligence" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="intelligence" type="button">+</button>
-                            </div>
-                        </div>
-                        <div class="ability-score">
-                            <label for="wisdom">
-                                <span class="ability-icon">👁️</span>
-                                <span class="ability-name">Wisdom</span>
-                            </label>
-                            <div class="score-controls">
-                                <button class="btn-minus" data-ability="wisdom" type="button">−</button>
-                                <input type="number" id="wisdom" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="wisdom" type="button">+</button>
-                            </div>
-                        </div>
-                        <div class="ability-score">
-                            <label for="charisma">
-                                <span class="ability-icon">✨</span>
-                                <span class="ability-name">Charisma</span>
-                            </label>
-                            <div class="score-controls">
-                                <button class="btn-minus" data-ability="charisma" type="button">−</button>
-                                <input type="number" id="charisma" value="8" min="8" max="15" readonly>
-                                <button class="btn-plus" data-ability="charisma" type="button">+</button>
-                            </div>
-                        </div>
-                    </div>
+                    <h2>4) Hit Points & Conditions</h2>
+                    <ul class="rules-list">
+                        <li>Track HP for both sides. At 0 HP the side is defeated; narrate KO/capture/retreat instead of death if preferred.</li>
+                        <li><strong>Second Wind (1/encounter):</strong> As a bonus after taking damage, roll 1d6 + level to heal yourself.</li>
+                        <li><strong>Injury on Big Hit:</strong> If a single hit deals 10+ damage, the target suffers a minor setback (disarmed, winded: -1 to next roll).</li>
+                    </ul>
                 </section>
-            </div>
 
-            <!-- Step 5: Skills -->
-            <div class="step" data-step="5">
                 <section class="card">
-                    <h2>Skills</h2>
-                    <p class="info-text">Select proficiency in skills (you can select multiple)</p>
-                    <div class="selection-grid" id="skillsContainer">
-                        <!-- Skills will be populated by JavaScript -->
-                    </div>
+                    <h2>5) Experience & Rewards</h2>
+                    <ul class="rules-list">
+                        <li>After victory, award 50 XP per character level of the defeated foe (or split evenly among players).</li>
+                        <li>Creative play: grant +10 XP for smart stunts, roleplay, or problem-solving during the fight.</li>
+                        <li>Loot: Use the NPC’s loot list as a base; add one flavorful item tied to the scene.</li>
+                    </ul>
                 </section>
-            </div>
 
-            <!-- Step 6: Backstory -->
-            <div class="step" data-step="6">
                 <section class="card">
-                    <h2>Background</h2>
-                    <p class="info-text">Choose your character's background. Each background provides unique skills and traits.</p>
-                    <div class="backstory-grid" id="backstoryGrid">
-                        <button class="backstory-btn" data-value="Acolyte" data-icon="⛪">
-                            <span class="btn-icon">⛪</span>
-                            <span class="btn-label">Acolyte</span>
-                            <span class="btn-description">You spent your life in service to a temple, learning sacred rites and providing spiritual guidance. Your devotion grants you insight into religious matters and the ability to find sanctuary in temples.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Criminal" data-icon="🗡️">
-                            <span class="btn-icon">🗡️</span>
-                            <span class="btn-label">Criminal</span>
-                            <span class="btn-description">You lived a life of crime, learning to survive on the streets through theft, deception, and violence. Your past has given you contacts in the underworld and skills in stealth and deception.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Folk Hero" data-icon="🛡️">
-                            <span class="btn-icon">🛡️</span>
-                            <span class="btn-label">Folk Hero</span>
-                            <span class="btn-description">You came from humble origins but performed a great deed that won the hearts of common folk. Your reputation as a champion of the people gives you respect and aid from commoners.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Noble" data-icon="👑">
-                            <span class="btn-icon">👑</span>
-                            <span class="btn-label">Noble</span>
-                            <span class="btn-description">You were born into wealth and privilege, raised in a world of politics and high society. Your noble status grants you respect and access to the upper echelons of society.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Sage" data-icon="📚">
-                            <span class="btn-icon">📚</span>
-                            <span class="btn-label">Sage</span>
-                            <span class="btn-description">You devoted your life to learning and research, amassing knowledge in libraries and universities. Your scholarly background provides you with extensive knowledge and research skills.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Soldier" data-icon="⚔️">
-                            <span class="btn-icon">⚔️</span>
-                            <span class="btn-label">Soldier</span>
-                            <span class="btn-description">You served in a military force, learning discipline, tactics, and the art of war. Your military training gives you respect among soldiers and knowledge of military hierarchy.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Hermit" data-icon="🏔️">
-                            <span class="btn-icon">🏔️</span>
-                            <span class="btn-label">Hermit</span>
-                            <span class="btn-description">You lived in seclusion, seeking spiritual enlightenment or hiding from the world. Your isolation has granted you deep wisdom and the ability to find peace in solitude.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Entertainer" data-icon="🎭">
-                            <span class="btn-icon">🎭</span>
-                            <span class="btn-label">Entertainer</span>
-                            <span class="btn-description">You traveled from place to place, performing for crowds and bringing joy through music, stories, or dance. Your performances have made you welcome in most communities.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Guild Artisan" data-icon="🔨">
-                            <span class="btn-icon">🔨</span>
-                            <span class="btn-label">Guild Artisan</span>
-                            <span class="btn-description">You were a member of a guild, mastering a craft and learning the value of community and trade. Your guild connections provide you with resources and a place to stay in cities.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Outlander" data-icon="🌲">
-                            <span class="btn-icon">🌲</span>
-                            <span class="btn-label">Outlander</span>
-                            <span class="btn-description">You grew up in the wilds, far from civilization, learning to survive in nature. Your wilderness skills make you an expert tracker and allow you to find food and shelter in the wild.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Charlatan" data-icon="🎲">
-                            <span class="btn-icon">🎲</span>
-                            <span class="btn-label">Charlatan</span>
-                            <span class="btn-description">You made your way through life by tricking others, using false identities and schemes. Your deceptive skills and false identities help you blend into any social situation.</span>
-                        </button>
-                        <button class="backstory-btn" data-value="Sailor" data-icon="⛵">
-                            <span class="btn-icon">⛵</span>
-                            <span class="btn-label">Sailor</span>
-                            <span class="btn-description">You spent years at sea, learning navigation, ship handling, and the ways of sailors. Your maritime experience grants you free passage on ships and knowledge of coastal areas.</span>
-                        </button>
-                    </div>
-                    <input type="hidden" id="backstorySelect" value="">
+                    <h2>6) Creative Hooks</h2>
+                    <ul class="rules-list">
+                        <li>Terrain tags: assign 1–2 features (e.g., "slick floor", "hanging lanterns") that players can exploit for advantage.</li>
+                        <li>Environmental assists: kicking a table for cover, cutting a rope, tossing sand—call for a simple roll to apply status (prone, blinded, slowed).</li>
+                        <li>Social pivots: mid-fight intimidation or bargain—opposed CHA check; on success, pause combat or gain a one-turn edge.</li>
+                        <li>Tags for NPCs: give each NPC a quirk ("cowardly", "berserker", "calculating") to guide tactics and reactions.</li>
+                    </ul>
                 </section>
-            </div>
-
-            <!-- Step 7: Export -->
-            <div class="step" data-step="7">
-                <section class="card">
-                    <h2>Complete Character</h2>
-                    <p class="info-text">Review your character and export when ready!</p>
-                    <button id="exportBtn" class="btn-export">Export Character Sheet</button>
-                </section>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="navigation">
-                <button id="prevBtn" class="btn-nav btn-prev" style="display: none;">← Previous</button>
-                <button id="nextBtn" class="btn-nav btn-next">Next →</button>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- GM Console Page -->
+    <div class="page hidden" id="gmPage">
+        <div class="container">
+            <header class="start-header">
+                <h1>GM Console</h1>
+                <div class="battle-header-actions">
+                    <button id="gmBackBtn" class="back-btn">Back to Main Menu</button>
+                    <button id="gmExportBtn" class="back-btn">Export Session</button>
+                    <button id="gmImportBtn" class="back-btn">Import Session</button>
+                </div>
+            </header>
+            <main class="gm-main">
+                <section class="card gm-card">
+                    <div class="gm-card-header">
+                        <div>
+                            <h2>Prompt the GM</h2>
+                            <p class="info-text">Context-aware prompts for narration, hooks, and rulings. (Stubbed locally for now.)</p>
+                        </div>
+                        <div class="gm-chips" id="gmChips">
+                            <button class="chip-btn" data-prompt="Narrate the next scene in two sentences.">Narrate next</button>
+                            <button class="chip-btn" data-prompt="List three encounter ideas with skill checks.">Encounter ideas</button>
+                            <button class="chip-btn" data-prompt="Offer 3 hooks tied to the current location.">Hooks</button>
+                        </div>
+                    </div>
+                    <textarea id="gmPromptInput" class="gm-textarea" rows="4" placeholder="Describe what you want the GM to do..."></textarea>
+                    <button id="gmSendBtn" class="btn-export" style="margin-top:10px;">Get GM Response</button>
+                </section>
+
+                <section class="card gm-card">
+                    <div class="gm-card-header">
+                        <h2>Story Log</h2>
+                        <span class="info-text">Recent GM outputs and notes.</span>
+                    </div>
+                    <div id="gmStoryLog" class="story-log"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Battle Arena Page -->
+    <div class="page hidden" id="battlePage">
+        <div class="container">
+            <header class="start-header">
+                <h1>Battle Arena</h1>
+                
+                <div class="battle-header-actions">
+                    <button id="battleBackBtn" class="back-btn">Back to Main Menu</button>
+                    <button id="battleResetBtn" class="back-btn">Reset Battle</button>
+                </div>
+            </header>
+            <main class="battle-main">
+                <div class="battle-uploads">
+                    <div class="battle-upload-card">
+                        <h3>Player Character</h3>
+                        <button id="playerUploadBtn" class="start-btn info-btn battle-upload-btn">Load Character</button>
+                        <div class="battle-upload-note">Use a character JSON exported from this app.</div>
+                        <button id="playerUploadPicker" class="back-btn" style="margin-top:10px;">Choose File</button>
+                    </div>
+                    <div class="battle-upload-card">
+                        <h3>NPC Opponent</h3>
+                        <button id="npcUploadBtn" class="start-btn info-btn battle-upload-btn">Upload NPC</button>
+                        <div class="battle-upload-note">Use a generated or custom NPC JSON.</div>
+                        <button id="spawnNpcBtn" class="start-btn info-btn battle-upload-btn">Spawn NPC</button>
+                        <div class="battle-upload-note">Spawn will pull a random NPC file from Character save files/NPC.</div>
+                    </div>
+                    <div class="battle-start-row">
+                        <button id="startBattleBtn" class="btn-export battle-start-btn" disabled>Start Battle</button>
+                    </div>
+                </div>
+
+                <div class="battle-field">
+                    <div class="combatant-card" id="playerCombatant">
+                        <div class="combatant-header">
+                            <div class="combatant-role">Player</div>
+                            <div class="combatant-name" id="playerName">No character loaded</div>
+                            <div class="combatant-meta" id="playerMeta">--</div>
+                        </div>
+                        <div class="combatant-portrait" id="playerPortrait"></div>
+                        <div class="hp-bar">
+                            <div class="hp-fill" id="playerHpFill" style="width:0%;"></div>
+                        </div>
+                        <div class="hp-text" id="playerHpText">HP: --</div>
+                        <div class="combatant-stats" id="playerStats"></div>
+                    </div>
+                    <div class="enemy-list" id="enemyList"></div>
+                </div>
+
+                <div class="battle-actions">
+                    <div class="turn-indicator" id="battleTurn">Awaiting uploads...</div>
+                    <div class="player-targets" id="playerAttackButtons"></div>
+                    <button id="attackBtn" class="btn-nav btn-next battle-action-btn" disabled>Resolve Enemy Turn</button>
+                    <button id="exportBattleCharBtn" class="btn-nav btn-prev battle-action-btn" disabled>Export Character</button>
+                </div>
+
+                <section class="card battle-log-card">
+                    <h2>Battle Log</h2>
+                    <div class="battle-log" id="battleLog"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Character Creation Page -->
+    <div class="page hidden" id="creationPage">
+        <div class="container">
+            <header>
+                <div class="creation-topbar">
+                    <button id="backToMainBtn" class="back-btn creation-back-btn">Back to Main Menu</button>
+                    <div class="creation-topbar-note">Return to the main menu at any time.</div>
+                </div>
+                <div class="summary-toggle" id="summaryToggle">
+                    <div class="summary-header">
+                        <span class="summary-icon">📋</span>
+                        <span class="summary-title">Character Summary</span>
+                        <span class="summary-arrow">▼</span>
+                    </div>
+                </div>
+                <div class="summary-panel" id="summaryPanel">
+                    <div class="summary-content" id="summaryContent">
+                        <!-- Summary will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="progress-wrapper">
+                    <div class="progress-labels">
+                        <span id="currentStepLabel">Step 1 of 5</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+    <input type="hidden" id="backstorySelect" value="">
+    <!-- Step 1: Character Name -->
+    <div class="step active" data-step="1">
+        <section class="card">
+            <h2>Character Name</h2>
+            <input type="text" id="characterName" placeholder="Enter character name" maxlength="50">
+            <div class="gender-row">
+                <label class="gender-label">Gender</label>
+                <div class="gender-options">
+                    <button class="selection-btn gender-btn" data-value="Male">
+                        <span class="btn-icon">&#9794;</span>
+                        <span class="btn-label">Male</span>
+                    </button>
+                    <button class="selection-btn gender-btn" data-value="Female">
+                        <span class="btn-icon">&#9792;</span>
+                        <span class="btn-label">Female</span>
+                    </button>
+                </div>
+                <input type="hidden" id="genderSelect" value="">
+            </div>
+        </section>
+    </div>
+
+    <!-- Step 2: Race Selection -->
+    <div class="step" data-step="2">
+        <section class="card">
+            <h2>Race</h2>
+            <div class="selection-grid" id="raceGrid">
+                <button class="selection-btn" data-value="Human">
+                    <span class="btn-icon">&#128101;</span>
+                    <span class="btn-label">Human</span>
+                </button>
+                <button class="selection-btn" data-value="Elf">
+                    <span class="btn-icon">&#127793;</span>
+                    <span class="btn-label">Elf</span>
+                </button>
+                <button class="selection-btn" data-value="Dwarf">
+                    <span class="btn-icon">&#9935;</span>
+                    <span class="btn-label">Dwarf</span>
+                </button>
+                <button class="selection-btn" data-value="Fairy">
+                    <span class="btn-icon">&#129497;</span>
+                    <span class="btn-label">Fairy</span>
+                </button>
+            </div>
+            <input type="hidden" id="raceSelect" value="">
+            <div class="portrait-section">
+                <div class="portrait-header">
+                    <h3>Portrait (optional)</h3>
+                    <span class="portrait-hint">Select race &amp; gender to view portraits</span>
+                </div>
+                <div id="portraitGrid" class="portrait-grid">
+                    <div class="empty-message">Waiting for race selection...</div>
+                </div>
+                <input type="hidden" id="portraitSelect" value="">
+            </div>
+        </section>
+    </div>
+
+    <!-- Step 3: Class Selection -->
+    <div class="step" data-step="3">
+        <section class="card">
+            <h2>Class</h2>
+            <div class="selection-grid" id="classGrid">
+                <button class="selection-btn" data-value="Warrior">
+                    <span class="btn-icon">&#9876;</span>
+                    <span class="btn-label">Warrior</span>
+                </button>
+                <button class="selection-btn" data-value="Ranger">
+                    <span class="btn-icon">&#127993;</span>
+                    <span class="btn-label">Ranger</span>
+                </button>
+                <button class="selection-btn" data-value="Magician">
+                    <span class="btn-icon">&#128302;</span>
+                    <span class="btn-label">Magician</span>
+                </button>
+                <button class="selection-btn" data-value="Paladin">
+                    <span class="btn-icon">&#9960;</span>
+                    <span class="btn-label">Paladin</span>
+                </button>
+            </div>
+            <input type="hidden" id="classSelect" value="">
+        </section>
+    </div>
+
+    <!-- Step 4: Ability Scores -->
+    <div class="step" data-step="4">
+        <section class="card">
+            <h2>Ability Scores</h2>
+            <p class="info-text">Distribute 20 points (minimum 0, maximum 15 per stat)</p>
+            <div class="points-remaining">
+                <span>Points Remaining: </span>
+                <span id="pointsRemaining">20</span>
+            </div>
+            <div class="ability-scores">
+                <div class="ability-score">
+                    <label for="health">
+                                <span class="ability-icon">&#10084;</span>
+                        <span class="ability-name">Health</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="health" type="button">-</button>
+                        <input type="number" id="health" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="health" type="button">+</button>
+                    </div>
+                </div>
+                <div class="ability-score">
+                    <label for="attackPower">
+                                <span class="ability-icon">&#9876;</span>
+                        <span class="ability-name">Attack Power</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="attackPower" type="button">-</button>
+                        <input type="number" id="attackPower" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="attackPower" type="button">+</button>
+                    </div>
+                </div>
+                <div class="ability-score">
+                    <label for="spellPower">
+                                <span class="ability-icon">&#128302;</span>
+                        <span class="ability-name">Spell Power</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="spellPower" type="button">-</button>
+                        <input type="number" id="spellPower" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="spellPower" type="button">+</button>
+                    </div>
+                </div>
+                <div class="ability-score">
+                    <label for="deceit">
+                                <span class="ability-icon">&#127183;</span>
+                        <span class="ability-name">Deceit</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="deceit" type="button">-</button>
+                        <input type="number" id="deceit" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="deceit" type="button">+</button>
+                    </div>
+                </div>
+                <div class="ability-score">
+                    <label for="defence">
+                                <span class="ability-icon">&#128737;</span>
+                        <span class="ability-name">Defence</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="defence" type="button">-</button>
+                        <input type="number" id="defence" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="defence" type="button">+</button>
+                    </div>
+                </div>
+                <div class="ability-score">
+                    <label for="magicResist">
+                                <span class="ability-icon">&#9884;</span>
+                        <span class="ability-name">Magic Resist</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="magicResist" type="button">-</button>
+                        <input type="number" id="magicResist" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="magicResist" type="button">+</button>
+                    </div>
+                </div>
+                <div class="ability-score">
+                    <label for="intuition">
+                                <span class="ability-icon">&#128065;</span>
+                        <span class="ability-name">Intuition</span>
+                    </label>
+                    <div class="score-controls">
+                        <button class="btn-minus" data-ability="intuition" type="button">-</button>
+                        <input type="number" id="intuition" value="0" min="0" max="15" readonly>
+                        <button class="btn-plus" data-ability="intuition" type="button">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Step 5: Export -->
+    <div class="step" data-step="5">
+        <section class="card">
+            <h2>Complete Character</h2>
+            <p class="info-text">Review your character and export when ready!</p>
+            <button id="completeBtn" class="btn-export">Complete Character</button>
+        </section>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <button id="prevBtn" class="btn-nav btn-prev" style="display: none;">&#8592; Previous</button>
+        <button id="nextBtn" class="btn-nav btn-next">Next &#8594;</button>
+    </div>
+</main><!-- Character Visualization Page -->
+    <div class="page hidden" id="visualizationPage">
+        <div class="container">
+            <header class="char-header">
+                <button id="backToStartBtn" class="back-btn">← Back</button>
+                <h1 id="charNameDisplay" class="char-name">Character Name</h1>
+                <button id="exportCharBtn" class="export-btn-small">Export</button>
+            </header>
+            <main class="char-main" id="characterVisualization">
+                <!-- Character will be populated by JavaScript -->
+            </main>
+        </div>
+    </div>
+
+    <script src="character.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
+
+
+
+
+
+
 
