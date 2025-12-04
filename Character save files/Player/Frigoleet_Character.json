@@ -1,0 +1,21 @@
+{
+  "id": "aac800bf-e915-4b19-a498-fa6ff1c74694",
+  "name": "Frigoleet",
+  "race": "Dwarf",
+  "class": "Warrior",
+  "gender": "Male",
+  "portrait": "Media/Portraits/Dwarf/Male/Dwarf_Male_1_Standard.png",
+  "abilityScores": {
+    "health": 30,
+    "attackPower": 15,
+    "spellPower": 0,
+    "deceit": 0,
+    "defence": 0,
+    "magicResist": 0,
+    "intuition": 0
+  },
+  "backstory": null,
+  "experience": 0,
+  "missionLog": [],
+  "createdAt": "2025-12-04T18:48:49.654Z"
+}

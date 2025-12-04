@@ -1,0 +1,12 @@
+{
+  "name": "Tamsin Farwatch",
+  "race": "Dwarf",
+  "class": "Paladin",
+  "level": 2,
+  "damage": "1d6+4 (mace)",
+  "hitpoints": 12,
+  "loot": [
+    "Healing potion",
+    "Spell scroll (cantrip)"
+  ]
+}

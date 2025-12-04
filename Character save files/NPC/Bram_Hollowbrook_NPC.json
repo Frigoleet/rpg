@@ -1,0 +1,14 @@
+{
+  "name": "Bram Hollowbrook",
+  "race": "Half-Orc",
+  "class": "Wizard",
+  "level": 4,
+  "damage": "1d8+2 (rapier)",
+  "hitpoints": 20,
+  "loot": [
+    "Bag of 25 gold coins",
+    "Traveler's cloak",
+    "Pearl worth 100 gp",
+    "Set of lockpicks"
+  ]
+}
